@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penta Soft Limited</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .glow {
+      box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transition: left 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      left: 0;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-gray-900/90 backdrop-blur-sm z-50 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center space-x-3">
+          <img src="https://res.cloudinary.com/dhoxfrf8r/image/upload/v1719507643/421836745_122099927480199419_4553219047816414371_n_r7z6a5.jpg" alt="Penta Soft Logo" class="w-10 h-10 rounded-full glow">
+          <span class="text-xl font-bold gradient-text">Penta Soft</span>
+        </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors">Home</a>
+          <a href="#sloopcode" class="nav-link text-gray-300 hover:text-white transition-colors">Sloopcode</a>
+          <a href="#features" class="nav-link text-gray-300 hover:text-white transition-colors">Features</a>
+          <a href="#contact" class="nav-link text-gray-300 hover:text-white transition-colors">Contact</a>
+        </div>
+        <button class="md:hidden text-gray-300 hover:text-white">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center justify-center gradient-bg relative overflow-hidden">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 text-center px-6 lg:px-20 max-w-6xl mx-auto" data-aos="fade-up">
+      <div class="floating mb-8">
+        <img src="https://res.cloudinary.com/dhoxfrf8r/image/upload/v1719507643/421836745_122099927480199419_4553219047816414371_n_r7z6a5.jpg" alt="Penta Soft Logo" class="mx-auto w-32 h-32 rounded-full glow border-4 border-white/20">
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+        PENTA SOFT
+        <!-- <span class="block text-3xl md:text-4xl font-normal mt-2 text-blue-200">LIMITED</span> -->
+      </h1>
+      <p class="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto mb-8 leading-relaxed">
+        Empowering developers globally through innovative platforms that unlock income and skill-building opportunities
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="#sloopcode" class="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
+          <i class="fas fa-rocket mr-2"></i>
+          Explore Sloopcode
+        </a>
+        <a href="#contact" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transform hover:scale-105 transition-all duration-300">
+          <i class="fas fa-handshake mr-2"></i>
+          Partner With Us
+        </a>
+      </div>
+    </div>
+    
+    <!-- Floating elements -->
+    <div class="absolute top-20 left-10 text-blue-300/30 text-6xl floating" style="animation-delay: -1s;">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="absolute bottom-20 right-10 text-purple-300/30 text-4xl floating" style="animation-delay: -2s;">
+      <i class="fas fa-laptop-code"></i>
+    </div>
+    <div class="absolute top-1/2 right-20 text-indigo-300/30 text-5xl floating">
+      <i class="fas fa-terminal"></i>
+    </div>
+  </section>
+
+  <!-- About Sloopcode -->
+  <section id="sloopcode" class="py-20 bg-gray-800 px-6 lg:px-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          <i class="fas fa-gem text-indigo-400 mr-3"></i>
+          <span class="gradient-text">Sloopcode</span>
+        </h2>
+        <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          A revolutionary microjob marketplace where software developers complete short, skills-focused coding tasks called <strong class="text-indigo-400">mine farms</strong> without interviews or client negotiations.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <div class="bg-gray-900 rounded-2xl p-8 card-hover border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mb-4">
+              <i class="fas fa-coins text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">Sloopcoins System</h3>
+          </div>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Purchase Sloopcoins to access coding challenges
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Automatic grading via comprehensive test cases
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Top performers earn bonus Sloopcoins
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gray-900 rounded-2xl p-8 card-hover border border-gray-700" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mb-4">
+              <i class="fas fa-money-bill-wave text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">Cash Redemption</h3>
+          </div>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Redeem coins for real cash rewards
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Secure validation and identity verification
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              Non-tradable, platform-specific currency
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gray-900 rounded-2xl p-8 card-hover border border-gray-700 md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4">
+              <i class="fas fa-users text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">Perfect For</h3>
+          </div>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-user-tie text-blue-400 mr-3 mt-1"></i>
+              Freelance developers seeking quick income
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-search text-yellow-400 mr-3 mt-1"></i>
+              Job seekers building their portfolios
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-briefcase text-green-400 mr-3 mt-1"></i>
+              Full-time developers earning extra
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-gray-900 px-6 lg:px-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-6">Why Choose Penta Soft?</h2>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+          We're building Africa's most vibrant developer economy with cutting-edge technology and innovative solutions
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6 glow">
+            <i class="fas fa-globe-africa text-white text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Global Reach</h3>
+          <p class="text-gray-400">Empowering developers across Africa and beyond</p>
+        </div>
+        
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-500 to-teal-600 rounded-full mb-6 glow">
+            <i class="fas fa-shield-alt text-white text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Secure Platform</h3>
+          <p class="text-gray-400">Bank-level security for all transactions</p>
+        </div>
+        
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-6 glow">
+            <i class="fas fa-chart-line text-white text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Skill Growth</h3>
+          <p class="text-gray-400">Continuous learning through practical challenges</p>
+        </div>
+        
+        <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mb-6 glow">
+            <i class="fas fa-rocket text-white text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Innovation</h3>
+          <p class="text-gray-400">Cutting-edge technology solutions</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section id="contact" class="py-20 gradient-bg relative overflow-hidden">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 text-center px-6 lg:px-20 max-w-4xl mx-auto" data-aos="zoom-in">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Partner With Us?</h2>
+      <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+        Join us in building Africa's most vibrant developer economy. Whether you're an institution, developer, or investor, we have opportunities for collaboration.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="mailto:admin@pentasoftlab.com" class="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg glow">
+          <i class="fas fa-envelope mr-2"></i>
+          Get In Touch
+        </a>
+        <a href="#sloopcode" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transform hover:scale-105 transition-all duration-300">
+          <i class="fas fa-info-circle mr-2"></i>
+          Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <img src="https://res.cloudinary.com/dhoxfrf8r/image/upload/v1719507643/421836745_122099927480199419_4553219047816414371_n_r7z6a5.jpg" alt="Penta Soft Logo" class="w-8 h-8 rounded-full">
+            <span class="text-xl font-bold gradient-text">Penta Soft Limited</span>
+          </div>
+          <p class="text-gray-500">Empowering developers globally through innovative technology solutions.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+          <div class="space-y-2">
+            <a href="#home" class="block hover:text-indigo-400 transition-colors">Home</a>
+            <a href="#sloopcode" class="block hover:text-indigo-400 transition-colors">Sloopcode</a>
+            <a href="#features" class="block hover:text-indigo-400 transition-colors">Features</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Contact</h4>
+          <div class="space-y-2">
+            <p><i class="fas fa-envelope mr-2 text-indigo-400"></i> admin@pentasoftlab.com</p>
+            <p><i class="fas fa-map-marker-alt mr-2 text-indigo-400"></i> Nigeria</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center">
+        <p>&copy; <span id="year"></span> Penta Soft Limited. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ 
+      once: true,
+      duration: 800,
+      easing: 'ease-out-cubic'
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
