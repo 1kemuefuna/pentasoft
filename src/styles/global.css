@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Custom colors */
+  --color-primary: #4A6CF7;
+  --color-dark: #111928;
+  --color-dark-bg: #151D2A;
+  --color-body-color: #959CB1;
+  --color-gray-2: #F7F9FC;
+
+  /* Custom breakpoints */
+  --breakpoint-xs: 450px;
+  --breakpoint-sm: 575px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+
+  /* Custom shadows */
+  --shadow-signUp: 0px 5px 10px rgba(4, 10, 34, 0.2);
+
+  /* Container configuration */
+  --container-center: true;
+  --container-padding: 16px;
+}

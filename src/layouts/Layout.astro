@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import ScrollToTop from '../components/ScrollToTop';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Pentasoft - Software Solutions', description = 'Pentasoft is a software solutions company providing innovative services for businesses.' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body class="dark:bg-black">
+    <slot />
+    <ScrollToTop client:load />
+    
+    <script>
+      // Dark mode toggle functionality
+      const darkToggler = document.getElementById('darkToggler') as HTMLInputElement;
+      if (darkToggler) {
+        // Check if darkMode is set in localStorage, if not, default to true (dark mode)
+        const storedDarkMode = localStorage.getItem('darkMode');
+        const isDarkMode = storedDarkMode !== null ? storedDarkMode === 'true' : true;
+        
+        // Set initial state
+        document.documentElement.classList.toggle('dark', isDarkMode);
+        darkToggler.checked = isDarkMode;
+        
+        // If no value in localStorage, set it to true (dark mode)
+        if (storedDarkMode === null) {
+          localStorage.setItem('darkMode', 'true');
+        }
+
+        darkToggler.addEventListener('change', function(this: HTMLInputElement) {
+          document.documentElement.classList.toggle('dark', this.checked);
+          localStorage.setItem('darkMode', String(this.checked));
+        });
+      }
+
+      // Mobile menu toggle
+      const navbarToggler = document.getElementById('navbarToggler');
+      const navbarCollapse = document.getElementById('navbarCollapse');
+      if (navbarToggler && navbarCollapse) {
+        navbarToggler.addEventListener('click', function() {
+          navbarCollapse.classList.toggle('hidden');
+        });
+      }
+
+      // Store navbarCollapse reference for use in other functions
+      let navbarCollapseRef = navbarCollapse;
+
+      // Smooth scrolling for menu items
+      document.querySelectorAll('.menu-scroll').forEach(link => {
+        link.addEventListener('click', function(this: HTMLAnchorElement, e: Event) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top: (targetElement as HTMLElement).offsetTop - 80,
+                behavior: 'smooth'
+              });
+              // Only hide navbar if it exists
+              if (navbarCollapseRef) {
+                navbarCollapseRef.classList.add('hidden');
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

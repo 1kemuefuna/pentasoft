@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import Features from '../components/Features';
+import About from '../components/About';
+import Pricing from '../components/Pricing';
+import Testimonials from '../components/Testimonials';
+import Blog from '../components/Blog';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
+---
+
+<Layout>
+  <Header client:load />
+  <main class="container m-auto">
+    <Hero />
+    <Features />
+    <About />
+    <Testimonials />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>

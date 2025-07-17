@@ -1,0 +1,4 @@
+import{j as t}from"./jsx-runtime.D_zvdyIk.js";import{r as s}from"./index.BVOCwoKb.js";const a=()=>{const[r,e]=s.useState(!1),o=()=>{window.scrollY>300?e(!0):e(!1)},i=()=>{window.scrollTo({top:0,behavior:"smooth"})};return s.useEffect(()=>(window.addEventListener("scroll",o),()=>{window.removeEventListener("scroll",o)}),[]),t.jsx("div",{className:"fixed right-8 bottom-8 z-[99]",children:t.jsx("button",{type:"button",onClick:i,className:`
+          flex h-10 w-10 cursor-pointer items-center justify-center rounded-md bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp
+          ${r?"opacity-100":"opacity-0"}
+        `,children:t.jsx("span",{className:"mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"})})})};export{a as default};

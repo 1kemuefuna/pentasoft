@@ -1,0 +1,6 @@
+<svg width="370" height="250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="370" height="250" fill="#f3f4fe" />
+  <rect x="10" y="10" width="350" height="230" fill="#e2e5f1" stroke="#3056D3" stroke-width="2" />
+  <text x="185" y="125" font-family="Arial" font-size="24" fill="#3056D3" text-anchor="middle">Blog Post 1</text>
+  <text x="185" y="155" font-family="Arial" font-size="16" fill="#3056D3" text-anchor="middle">The Future of AI</text>
+</svg>
