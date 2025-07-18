@@ -11,7 +11,7 @@ const { title = 'Pentasoft - Software Solutions', description = 'Pentasoft is a 
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,32 +20,14 @@ const { title = 'Pentasoft - Software Solutions', description = 'Pentasoft is a 
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" />
   </head>
-  <body class="dark:bg-black">
+  <body class="bg-background dark:bg-dark-background">
     <slot />
     <ScrollToTop client:load />
     
     <script>
-      // Dark mode toggle functionality
-      const darkToggler = document.getElementById('darkToggler') as HTMLInputElement;
-      if (darkToggler) {
-        // Check if darkMode is set in localStorage, if not, default to true (dark mode)
-        const storedDarkMode = localStorage.getItem('darkMode');
-        const isDarkMode = storedDarkMode !== null ? storedDarkMode === 'true' : true;
-        
-        // Set initial state
-        document.documentElement.classList.toggle('dark', isDarkMode);
-        darkToggler.checked = isDarkMode;
-        
-        // If no value in localStorage, set it to true (dark mode)
-        if (storedDarkMode === null) {
-          localStorage.setItem('darkMode', 'true');
-        }
-
-        darkToggler.addEventListener('change', function(this: HTMLInputElement) {
-          document.documentElement.classList.toggle('dark', this.checked);
-          localStorage.setItem('darkMode', String(this.checked));
-        });
-      }
+      // Always use dark mode
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('darkMode', 'true');
 
       // Mobile menu toggle
       const navbarToggler = document.getElementById('navbarToggler');

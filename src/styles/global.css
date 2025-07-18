@@ -3,13 +3,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Custom colors */
-  --color-primary: #4A6CF7;
-  --color-dark: #111928;
-  --color-dark-bg: #151D2A;
-  --color-body-color: #959CB1;
-  --color-gray-2: #F7F9FC;
-
+  /* Custom colors - Light Theme */
+  --color-primary: #271869;
+  --color-background: #FFFFFF;
+  --color-text: #1C1C1C;
+  --color-surface: #F8F8FF;
+  --color-accent: #FFCC00;
+  --color-accent-variant: #F9B107;
+  --color-border: #E0E0E0;
+  --color-card: #FAFAFA;
+  --color-dark-bg: #221a45;
+  --color-surface: #221a46;
+  --color-dark-border: #3A2E6B;
+  --color-button-primary: #271869;
+  --color-button-on-primary: #FFFFFF;
+  --color-button-accent: #FFCC00;
+  --color-button-on-accent: #1C1C1C;
+  
+  /* Dark theme colors are applied via Tailwind's darkMode class */
+  
   /* Custom breakpoints */
   --breakpoint-xs: 450px;
   --breakpoint-sm: 575px;
@@ -24,4 +36,20 @@
   /* Container configuration */
   --container-center: true;
   --container-padding: 16px;
+}
+
+/* Dark mode styles */
+.dark {
+  --color-primary: #FFCC00;
+  --color-background: #1A103D;
+  --color-text: #F1F1F1;
+  --color-surface: #221A44;
+  --color-accent: #F9B107;
+  --color-accent-variant: #FFCC00;
+  --color-border: #3A2E6B;
+  --color-card: #2D204F;
+  --color-button-primary: #FFCC00;
+  --color-button-on-primary: #1A103D;
+  --color-button-accent: #F9B107;
+  --color-button-on-accent: #1A103D;
 }

@@ -1,27 +1,68 @@
 import React, { useState } from 'react';
+import { EnvelopeIcon } from '@heroicons/react/24/outline';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import type { FormikHelpers } from 'formik';
+import * as Yup from 'yup';
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+  // Define validation schema using Yup
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    message: Yup.string().required('Message is required').min(10, 'Message must be at least 10 characters')
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  // Initial form values
+  const initialValues: FormValues = {
+    name: '',
+    email: '',
+    message: ''
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    // Reset form after submission
-    setFormData({ name: '', email: '', message: '' });
-    alert('Thank you for your message! We will get back to you soon.');
+  // Define the form values type
+  interface FormValues {
+    name: string;
+    email: string;
+    message: string;
+  }
+
+  // Handle form submission
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
+    const { resetForm, setSubmitting, setStatus } = formikHelpers;
+    try {
+      // Call Resend API to send email
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer re_eP5NjmPG_Pdeb2ZRt17e1qbxbQ1aYcXjf', // Replace with your actual API key
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain
+          to: ['admin@pentasofthq.com'],
+          subject: `Contact Form Submission from ${values.name}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${values.name}</p>
+            <p><strong>Email:</strong> ${values.email}</p>
+            <p><strong>Message:</strong> ${values.message}</p>
+          `
+        })
+      });
+
+      if (response.ok) {
+        resetForm();
+        setStatus({ success: true, message: 'Thank you for your message! We will get back to you soon.' });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setStatus({ success: false, message: 'There was an error sending your message. Please try again or contact us directly via email.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -47,64 +88,63 @@ const Contact: React.FC = () => {
           <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
             <div className="max-w-[570px] mb-12 lg:mb-0 mx-auto">
               <div className="flex mb-8 max-w-[370px] w-full">
-                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-primary rounded">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    className="fill-current"
-                  >
-                    <path d="M21.8182 24H16.5584C15.3896 24 14.4156 23.0256 14.4156 21.8563V17.5688C14.4156 17.1401 14.0649 16.7893 13.6364 16.7893H10.4026C9.97403 16.7893 9.62338 17.1401 9.62338 17.5688V21.8173C9.62338 22.9866 8.64935 23.961 7.48052 23.961H2.14286C0.974026 23.961 0 22.9866 0 21.8173V8.21437C0 7.62972 0.311688 7.08404 0.818182 6.77223L11.1039 0.263094C11.6494 -0.0876979 12.3896 -0.0876979 12.9351 0.263094L23.2208 6.77223C23.7273 7.08404 24 7.62972 24 8.21437V21.7783C24 23.0256 23.026 24 21.8182 24ZM10.3636 15.4251H13.5974C14.7662 15.4251 15.7403 16.3995 15.7403 17.5688V21.8173C15.7403 22.246 16.0909 22.5968 16.5195 22.5968H21.8182C22.2468 22.5968 22.5974 22.246 22.5974 21.8173V8.25335C22.5974 8.13642 22.5195 8.01949 22.4416 7.94153L12.1948 1.4324C12.0779 1.35445 11.9221 1.35445 11.8442 1.4324L1.55844 7.94153C1.44156 8.01949 1.4026 8.13642 1.4026 8.25335V21.8563C1.4026 22.285 1.75325 22.6358 2.18182 22.6358H7.48052C7.90909 22.6358 8.25974 22.285 8.25974 21.8563V17.5688C8.22078 16.3995 9.19481 15.4251 10.3636 15.4251Z" />
+                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-dark rounded">
+                  <svg width="8" height="16" viewBox="0 0 8 16" className="w-6 h-6 fill-current">
+                    <path d="M7.43902 6.4H6.19918H5.75639V5.88387V4.28387V3.76774H6.19918H7.12906C7.3726 3.76774 7.57186 3.56129 7.57186 3.25161V0.516129C7.57186 0.232258 7.39474 0 7.12906 0H5.51285C3.76379 0 2.54609 1.44516 2.54609 3.5871V5.83226V6.34839H2.10329H0.597778C0.287819 6.34839 0 6.63226 0 7.04516V8.90323C0 9.26452 0.243539 9.6 0.597778 9.6H2.05902H2.50181V10.1161V15.3032C2.50181 15.6645 2.74535 16 3.09959 16H5.18075C5.31359 16 5.42429 15.9226 5.51285 15.8194C5.60141 15.7161 5.66783 15.5355 5.66783 15.3806V10.1419V9.62581H6.13276H7.12906C7.41688 9.62581 7.63828 9.41935 7.68256 9.10968V9.08387V9.05806L7.99252 7.27742C8.01466 7.09677 7.99252 6.89032 7.85968 6.68387C7.8154 6.55484 7.61614 6.42581 7.43902 6.4Z" />
                   </svg>
                 </div>
                 <div className="w-full">
                   <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
-                    Our Location
+                    Facebook
                   </h4>
                   <p className="text-base text-body-color dark:text-white dark:opacity-90">
-                    123 Business Avenue, Suite 500, San Francisco, CA 94107
+                    <a href="https://facebook.com/pentasofthq" className="hover:text-primary">facebook.com/pentasofthq</a>
                   </p>
                 </div>
               </div>
+              
               <div className="flex mb-8 max-w-[370px] w-full">
-                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-primary rounded">
-                  <svg
-                    width="24"
-                    height="26"
-                    viewBox="0 0 24 26"
-                    className="fill-current"
-                  >
-                    <path d="M22.6149 15.1386C22.5307 14.1704 21.7308 13.4968 20.7626 13.4968H2.82869C1.86042 13.4968 1.10265 14.2125 0.97636 15.1386L0.092295 23.9793C0.0501967 24.4845 0.21859 25.0317 0.555377 25.4106C0.892163 25.7895 1.39734 26 1.94462 26H21.6887C22.1939 26 22.6991 25.7895 23.078 25.4106C23.4148 25.0317 23.5832 24.5266 23.5411 23.9793L22.6149 15.1386ZM21.9413 24.4424C21.8992 24.4845 21.815 24.5687 21.6466 24.5687H1.94462C1.81833 24.5687 1.69203 24.4845 1.64993 24.4424C1.60783 24.4003 1.52364 24.3161 1.56574 24.1477L2.4498 15.2649C2.4498 15.0544 2.61819 14.9281 2.82869 14.9281H20.8047C21.0152 14.9281 21.1415 15.0544 21.1835 15.2649L22.0676 24.1477C22.0255 24.274 21.9834 24.4003 21.9413 24.4424Z" />
-                    <path d="M11.7965 16.7805C10.1547 16.7805 8.84961 18.0855 8.84961 19.7273C8.84961 21.3692 10.1547 22.6742 11.7965 22.6742C13.4383 22.6742 14.7434 21.3692 14.7434 19.7273C14.7434 18.0855 13.4383 16.7805 11.7965 16.7805ZM11.7965 21.2008C10.9966 21.2008 10.3231 20.5272 10.3231 19.7273C10.3231 18.9275 10.9966 18.2539 11.7965 18.2539C12.5964 18.2539 13.2699 18.9275 13.2699 19.7273C13.2699 20.5272 12.5964 21.2008 11.7965 21.2008Z" />
-                    <path d="M1.10265 7.85562C1.18684 9.70794 2.82868 10.4657 3.67064 10.4657H6.61752C6.65962 10.4657 6.65962 10.4657 6.65962 10.4657C7.92257 10.3815 9.18552 9.53955 9.18552 7.85562V6.84526C10.5748 6.84526 13.7742 6.84526 15.1635 6.84526V7.85562C15.1635 9.53955 16.4264 10.3815 17.6894 10.4657H17.7315H20.6363C21.4782 10.4657 23.1201 9.70794 23.2043 7.85562C23.2043 7.72932 23.2043 7.26624 23.2043 6.84526C23.2043 6.50847 23.2043 6.21378 23.2043 6.17169C23.2043 6.12959 23.2043 6.08749 23.2043 6.08749C23.078 4.90874 22.657 3.94047 21.9413 3.18271L21.8992 3.14061C20.8468 2.17235 19.5838 1.62507 18.6155 1.28828C15.795 0.193726 12.2587 0.193726 12.0903 0.193726C9.6065 0.235824 8.00677 0.446315 5.60716 1.28828C4.681 1.58297 3.41805 2.13025 2.36559 3.09851L2.3235 3.14061C1.60782 3.89838 1.18684 4.86664 1.06055 6.04539C1.06055 6.08749 1.06055 6.12959 1.06055 6.12959C1.06055 6.21378 1.06055 6.46637 1.06055 6.80316C1.10265 7.18204 1.10265 7.68722 1.10265 7.85562ZM3.37595 4.15097C4.21792 3.3932 5.27038 2.93012 6.15444 2.59333C8.34355 1.79346 9.7749 1.62507 12.1745 1.58297C12.3429 1.58297 15.6266 1.62507 18.1525 2.59333C19.0365 2.93012 20.089 3.3511 20.931 4.15097C21.394 4.65615 21.6887 5.32972 21.7729 6.12959C21.7729 6.25588 21.7729 6.46637 21.7729 6.80316C21.7729 7.22414 21.7729 7.68722 21.7729 7.81352C21.7308 8.78178 20.8047 8.99227 20.6784 8.99227H17.7736C17.3526 8.95017 16.679 8.78178 16.679 7.85562V6.12959C16.679 5.7928 16.4685 5.54021 16.1738 5.41392C15.9213 5.32972 8.55405 5.32972 8.30146 5.41392C8.00677 5.49811 7.79628 5.7928 7.79628 6.12959V7.85562C7.79628 8.78178 7.1227 8.95017 6.70172 8.99227H3.79694C3.67064 8.99227 2.74448 8.78178 2.70238 7.81352C2.70238 7.68722 2.70238 7.22414 2.70238 6.80316C2.70238 6.46637 2.70238 6.29798 2.70238 6.17169C2.61818 5.32972 2.91287 4.65615 3.37595 4.15097Z" />
+                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-dark rounded">
+                  <svg width="16" height="16" viewBox="0 0 16 16" className="w-6 h-6 fill-current">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
                   </svg>
                 </div>
                 <div className="w-full">
                   <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
-                    Phone Number
+                    Instagram
                   </h4>
                   <p className="text-base text-body-color dark:text-white dark:opacity-90">
-                    (+1) 555-123-4567
+                    <a href="https://instagram.com/pentasofthq" className="hover:text-primary">instagram.com/pentasofthq</a>
                   </p>
                 </div>
               </div>
+
               <div className="flex mb-8 max-w-[370px] w-full">
-                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-primary rounded">
-                  <svg
-                    width="28"
-                    height="19"
-                    viewBox="0 0 28 19"
-                    className="fill-current"
-                  >
-                    <path d="M25.3636 0H2.63636C1.18182 0 0 1.16785 0 2.6052V16.3948C0 17.8322 1.18182 19 2.63636 19H25.3636C26.8182 19 28 17.8322 28 16.3948V2.6052C28 1.16785 26.8182 0 25.3636 0ZM25.3636 1.5721C25.5909 1.5721 25.7727 1.61702 25.9545 1.75177L14.6364 8.53428C14.2273 8.75886 13.7727 8.75886 13.3636 8.53428L2.04545 1.75177C2.22727 1.66194 2.40909 1.5721 2.63636 1.5721H25.3636ZM25.3636 17.383H2.63636C2.09091 17.383 1.59091 16.9338 1.59091 16.3499V3.32388L12.5 9.8818C12.9545 10.1513 13.4545 10.2861 13.9545 10.2861C14.4545 10.2861 14.9545 10.1513 15.4091 9.8818L26.3182 3.32388V16.3499C26.4091 16.9338 25.9091 17.383 25.3636 17.383Z" />
+                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-dark rounded">
+                  <svg width="14" height="14" viewBox="0 0 14 14" className="w-6 h-6 fill-current">
+                    <path d="M13.0214 0H1.02084C0.453707 0 0 0.451613 0 1.01613V12.9839C0 13.5258 0.453707 14 1.02084 14H12.976C13.5432 14 13.9969 13.5484 13.9969 12.9839V0.993548C14.0422 0.451613 13.5885 0 13.0214 0ZM4.15142 11.9H2.08705V5.23871H4.15142V11.9ZM3.10789 4.3129C2.42733 4.3129 1.90557 3.77097 1.90557 3.11613C1.90557 2.46129 2.45002 1.91935 3.10789 1.91935C3.76577 1.91935 4.31022 2.46129 4.31022 3.11613C4.31022 3.77097 3.81114 4.3129 3.10789 4.3129ZM11.9779 11.9H9.9135V8.67097C9.9135 7.90323 9.89082 6.8871 8.82461 6.8871C7.73571 6.8871 7.57691 7.74516 7.57691 8.60323V11.9H5.51254V5.23871H7.53154V6.16452H7.55423C7.84914 5.62258 8.50701 5.08065 9.52785 5.08065C11.6376 5.08065 12.0232 6.43548 12.0232 8.2871V11.9H11.9779Z" />
                   </svg>
+                </div>
+                <div className="w-full">
+                  <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
+                    LinkedIn
+                  </h4>
+                  <p className="text-base text-body-color dark:text-white dark:opacity-90">
+                    <a href="https://linkedin.com/company/pentasofthq" className="hover:text-primary">linkedin.com/company/pentasofthq</a>
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex mb-8 max-w-[370px] w-full">
+                <div className="w-full max-w-[60px] h-[60px] flex items-center justify-center mr-6 overflow-hidden bg-primary bg-opacity-5 text-dark rounded">
+                  <EnvelopeIcon className="w-6 h-6" />
                 </div>
                 <div className="w-full">
                   <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
                     Email Address
                   </h4>
                   <p className="text-base text-body-color dark:text-white dark:opacity-90">
-                    info@pentasoft.com
+                    <a href="mailto:admin@pentasofthq.com" className="hover:text-primary">admin@pentasofthq.com</a>
                   </p>
                 </div>
               </div>
@@ -112,48 +152,64 @@ const Contact: React.FC = () => {
           </div>
           <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
             <div className="bg-white dark:bg-dark-bg relative rounded-lg p-8 sm:p-12 shadow-lg">
-              <form onSubmit={handleSubmit}>
-                <div className="mb-6">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-bg"
-                  />
-                </div>
-                <div className="mb-6">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-bg"
-                  />
-                </div>
-                <div className="mb-6">
-                  <textarea
-                    name="message"
-                    placeholder="Your Message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-bg h-[120px]"
-                  ></textarea>
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-primary rounded p-3 transition hover:bg-opacity-90"
-                  >
-                    Send Message
-                  </button>
-                </div>
-              </form>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+                enableReinitialize={true}
+                validateOnBlur={true}
+                validateOnChange={true}
+              >
+                {({ isSubmitting, status, submitForm }) => (
+                  <Form>
+                    <div className="mb-6">
+                      <Field
+                        type="text"
+                        name="name"
+                        placeholder="Your Name"
+                        className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-border"
+                      />
+                      <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+                    <div className="mb-6">
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="Your Email"
+                        className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-border"
+                      />
+                      <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+                    <div className="mb-6">
+                      <Field
+                        as="textarea"
+                        name="message"
+                        placeholder="Your Message"
+                        className="w-full rounded py-3 px-[14px] text-body-color dark:text-white dark:opacity-90 text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary dark:bg-dark-bg dark:border-dark-border h-[120px]"
+                      />
+                      <ErrorMessage name="message" component="div" className="text-red-500 text-sm mt-1" />
+                    </div>
+                    {status && (
+                      <div className={`mb-6 p-3 rounded ${status.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                        {status.message}
+                      </div>
+                    )}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => submitForm()}
+                        disabled={isSubmitting}
+                        className="w-full text-dark bg-primary rounded p-3 transition hover:bg-opacity-90 disabled:opacity-70 cursor-pointer"
+                      >
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </button>
+                    </div>
+                    <div className="mt-4 text-center text-sm text-gray-500">
+                      <p>Or email us directly at <a href="mailto:admin@pentasofthq.com" className="text-primary hover:underline">admin@pentasofthq.com</a></p>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
               <div>
                 <span className="absolute -top-10 -right-9 z-[-1]">
                   <svg

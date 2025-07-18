@@ -10,22 +10,22 @@ const Hero: React.FC = () => {
         <div className="flex flex-wrap mx-[-16px]">
           <div className="w-full px-4">
             <div className="mx-auto max-w-[570px] text-center wow fadeInUp" data-wow-delay=".2s">
-              <h1 className="text-black dark:text-white font-bold text-3xl sm:text-4xl md:text-5xl leading-tight sm:leading-tight md:leading-tight mb-5">
+              <h1 className="text-text dark:text-dark-text font-bold text-3xl sm:text-4xl md:text-5xl leading-tight sm:leading-tight md:leading-tight mb-5">
                 Pentasoft Solutions for Your Business
               </h1>
-              <p className="font-medium text-lg md:text-xl leading-relaxed md:leading-relaxed text-body-color dark:text-white dark:opacity-90 mb-12">
+              <p className="font-medium text-lg md:text-xl leading-relaxed md:leading-relaxed text-text dark:text-dark-text dark:opacity-90 mb-12">
                 A complete software solution for your business needs. We provide innovative solutions to help your business grow and succeed.
               </p>
               <div className="flex items-center justify-center">
                 <a
                   href="#features"
-                  className="text-base font-semibold text-white bg-primary py-4 px-8 hover:bg-opacity-80 mx-2 rounded-md transition duration-300 ease-in-out"
+                  className="text-base font-semibold text-button-onPrimary bg-button-primary py-4 px-8 hover:bg-opacity-80 mx-2 rounded-md transition duration-300 ease-in-out"
                 >
                   Get Started
                 </a>
                 <a
                   href="#about"
-                  className="text-base font-semibold text-black bg-black bg-opacity-10 dark:text-white dark:bg-dark dark:bg-opacity-10 py-4 px-8 hover:bg-opacity-20 dark:hover:bg-opacity-20 mx-2 rounded-md transition duration-300 ease-in-out"
+                  className="text-base font-semibold text-text bg-surface bg-opacity-70 dark:text-dark-text dark:bg-dark-surface dark:bg-opacity-70 py-4 px-8 hover:bg-opacity-90 dark:hover:bg-opacity-90 mx-2 rounded-md transition duration-300 ease-in-out"
                 >
                   Learn More
                 </a>
