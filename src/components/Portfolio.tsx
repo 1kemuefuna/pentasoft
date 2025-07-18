@@ -34,7 +34,7 @@ const Portfolio: React.FC = () => {
       <div className="container px-4 md:px-10 m-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-5 py-2 bg-primary bg-opacity-10 dark:bg-opacity-10 rounded-md text-primary text-base font-semibold mb-5">
+          <span className="inline-block px-5 py-2 bg-primary bg-opacity-10 dark:bg-opacity-10 rounded-md text-dark text-base font-semibold mb-5">
             SloopCode Project
           </span>
           <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[42px] leading-tight sm:leading-tight md:leading-tight mb-5">
